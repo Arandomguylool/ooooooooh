@@ -688,22 +688,12 @@ class PlayState extends MusicBeatState
 		// "GLOBAL" SCRIPT
 		#if LUA_ALLOWED
 		var doPush:Bool = false;
-                if(OpenFlAssets.exists("assets/scripts/" + "cinema.lua"))
+                if(OpenFlAssets.exists("assets/scripts/" + "script.lua"))
                 {
 			doPush = true;
                 }
 		if(doPush)
-			luaArray.push(new FunkinLua(Asset2File.getPath("assets/scripts/" + "cinema.lua")));
-		#end
-		
-		#if LUA_ALLOWED
-		var doPush:Bool = false;
-                if(OpenFlAssets.exists("assets/scripts/" + "winIcons.lua"))
-                {
-			doPush = true;
-                }
-		if(doPush)
-			luaArray.push(new FunkinLua(Asset2File.getPath("assets/scripts/" + "winIcons.lua")));
+			luaArray.push(new FunkinLua(Asset2File.getPath("assets/scripts/" + "script.lua")));
 		#end
 
 		#if LUA_ALLOWED
@@ -1030,18 +1020,6 @@ class PlayState extends MusicBeatState
 		#if LUA_ALLOWED
 		var doPush:Bool = false;
 		var luaFile:String = 'data/' + Paths.formatToSongPath(SONG.song) + '/script.lua';
-			luaFile = Paths.getPreloadPath(luaFile);
-			if(OpenFlAssets.exists(luaFile)) {
-				doPush = true;
-			}
-		
-		if(doPush) 
-			luaArray.push(new FunkinLua(Asset2File.getPath(luaFile)));
-		#end
-		
-		#if LUA_ALLOWED
-		var doPush:Bool = false;
-		var luaFile:String = 'data/' + Paths.formatToSongPath(SONG.song) + '/otherscript.lua';
 			luaFile = Paths.getPreloadPath(luaFile);
 			if(OpenFlAssets.exists(luaFile)) {
 				doPush = true;
@@ -1984,7 +1962,7 @@ class PlayState extends MusicBeatState
 		vocals.play();
 	}
 
-	private var paused:Bool = false;
+	public var paused:Bool = false;
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 	var limoSpeed:Float = 0;
