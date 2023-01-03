@@ -303,7 +303,7 @@ class StoryMenuState extends MusicBeatState
 			}
 			else // dando uso para esta parte do codigo
 			{
-				GambiarraState.loadAndSwitchState(new PlayState());
+				LoadingState.loadAndSwitchState(new PlayState(), true);
 			}
 			FreeplayState.destroyFreeplayVocals();
 		});
