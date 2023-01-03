@@ -84,7 +84,8 @@ class ChartingState extends MusicBeatState
 		['Opponent Anim', "Value 1: Character to change (dad, gf)\nValue 2: Camera position (1 = normal, 2 = gf)"],
 		['Super Fade', "Value 1: Super Idol opacity"],
 		['Super Flash', "Value 1: Flash duration"],
-		['Zoom Amount', "Value 1: Changes the \"defaultCamZoom\""]
+		['Zoom Amount', "Value 1: Changes the \"defaultCamZoom\""],
+		['Change Scroll Speed', "Value 1: Scroll Speed Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds."]
 	];
 
 	var _file:FileReference;
