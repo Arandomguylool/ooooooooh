@@ -63,7 +63,9 @@ class PlayState extends MusicBeatState
 {
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
-	public static var songSpeed:Float = 0;
+	
+	public var songSpeedTween:FlxTween;
+	public var songSpeed(default, set):Float = 1;
 
 	public var isDad:Bool = false;
 	public var isGF:Bool = false;
@@ -695,7 +697,7 @@ class PlayState extends MusicBeatState
 		if(doPush)
 			luaArray.push(new FunkinLua(Asset2File.getPath("assets/scripts/" + "cinema.lua")));
 		#end
-
+		
 		#if LUA_ALLOWED
 		var doPush:Bool = false;
                 if(OpenFlAssets.exists("assets/scripts/" + "winIcons.lua"))
@@ -1030,6 +1032,18 @@ class PlayState extends MusicBeatState
 		#if LUA_ALLOWED
 		var doPush:Bool = false;
 		var luaFile:String = 'data/' + Paths.formatToSongPath(SONG.song) + '/script.lua';
+			luaFile = Paths.getPreloadPath(luaFile);
+			if(OpenFlAssets.exists(luaFile)) {
+				doPush = true;
+			}
+		
+		if(doPush) 
+			luaArray.push(new FunkinLua(Asset2File.getPath(luaFile)));
+		#end
+		
+		#if LUA_ALLOWED
+		var doPush:Bool = false;
+		var luaFile:String = 'data/' + Paths.formatToSongPath(SONG.song) + '/otherscript.lua';
 			luaFile = Paths.getPreloadPath(luaFile);
 			if(OpenFlAssets.exists(luaFile)) {
 				doPush = true;
@@ -1851,6 +1865,8 @@ class PlayState extends MusicBeatState
 				startTimer.active = false;
 			if (finishTimer != null && !finishTimer.finished)
 				finishTimer.active = false;
+			if (songSpeedTween != null)
+				songSpeedTween.active = false;
 
 			if(blammedLightsBlackTween != null)
 				blammedLightsBlackTween.active = false;
@@ -1890,6 +1906,8 @@ class PlayState extends MusicBeatState
 				startTimer.active = true;
 			if (finishTimer != null && !finishTimer.finished)
 				finishTimer.active = true;
+			if (songSpeedTween != null)
+				songSpeedTween.active = true;
 
 			if(blammedLightsBlackTween != null)
 				blammedLightsBlackTween.active = true;
@@ -2915,7 +2933,7 @@ class PlayState extends MusicBeatState
 				if(Math.isNaN(val1)) val1 = 1;
 				if(Math.isNaN(val2)) val2 = 0;
 
-				var newValue:Float = SONG.speed * ClientPrefs.getGameplaySetting('scrollspeed', 1) * val1;
+				var newValue:Float = SONG.speed * val1;
 
 				if(val2 <= 0)
 				{
@@ -3216,7 +3234,7 @@ class PlayState extends MusicBeatState
 							});
 						} else {
 							cancelFadeTween();
-							GambiarraState.loadAndSwitchState(new PlayState());
+							LoadingState.loadAndSwitchState(new PlayState());
 						}
 					}
 				}
