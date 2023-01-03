@@ -678,7 +678,7 @@ class FunkinLua {
 		});
 		Lua_helper.add_callback(lua, "restartSong", function(skipTransition:Bool) {
 			PlayState.instance.persistentUpdate = false;
-			PauseSubState.restartSong(skipTransition);
+			PauseSubState.Reiniciar(skipTransition);
 		});
 		Lua_helper.add_callback(lua, "exitSong", function(skipTransition:Bool) {
 			if(skipTransition)
@@ -1532,8 +1532,10 @@ class FunkinLua {
 			FlxG.sound.music.fadeOut(duration, toValue);
 			luaTrace('musicFadeOut is deprecated! Use soundFadeOut instead.', false, true);
 		});
-
+		
+		#if desktop
 		Discord.DiscordClient.addLuaCallbacks(lua);
+		#end
 
 		call('onCreate', []);
 		#end
