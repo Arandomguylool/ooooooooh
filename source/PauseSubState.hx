@@ -85,7 +85,7 @@ class PauseSubState extends MusicBeatSubstate
 		botplayText.setFormat(Paths.font('vcr.ttf'), 32);
 		botplayText.x = FlxG.width - (botplayText.width + 20);
 		botplayText.updateHitbox();
-		botplayText.visible = PlayState.cpuControlled;
+		botplayText.visible = PlayState.instance.cpuControlled;
 		add(botplayText);
 
 		blueballedTxt.alpha = 0;
@@ -157,7 +157,7 @@ class PauseSubState extends MusicBeatSubstate
 					MusicBeatState.resetState();
 					FlxG.sound.music.volume = 0;
 					PlayState.changedDifficulty = true;
-					PlayState.cpuControlled = false;
+					PlayState.instance.cpuControlled = false;
 					return;
 				}
 			} 
@@ -178,15 +178,13 @@ class PauseSubState extends MusicBeatSubstate
 				case "Editor de Personagens":
 					FlxG.switchState(new CharacterEditorState());
 				case "Reiniciar":
-					CustomFadeTransition.nextCamera = transCamera;
-					MusicBeatState.resetState();
-					FlxG.sound.music.volume = 0;
+					Reiniciar();
 				case "Pular Musica":
 					PlayState.instance.endSong();
 				case 'Botplay':
-					PlayState.cpuControlled = !PlayState.cpuControlled;
+					PlayState.instance.cpuControlled = !PlayState.instance.cpuControlled;
 					PlayState.usedPractice = true;
-					botplayText.visible = PlayState.cpuControlled;
+					botplayText.visible = PlayState.instance.cpuControlled;
 				case "Voltar para o menu":
 					PlayState.deathCounter = 0;
 					PlayState.seenCutscene = false;
@@ -199,12 +197,29 @@ class PauseSubState extends MusicBeatSubstate
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 					PlayState.usedPractice = false;
 					PlayState.changedDifficulty = false;
-					PlayState.cpuControlled = false;
+					PlayState.instance.cpuControlled = false;
 
 				case 'Voltar':
 					menuItems = menuItemsOG;
 					regenMenu();
 			}
+		}
+	}
+	
+	public static function Reiniciar(noTrans:Bool = false)
+	{
+		PlayState.instance.paused = true; // For lua
+		FlxG.sound.music.volume = 0;
+		PlayState.instance.vocals.volume = 0;
+
+		if(noTrans)
+		{
+			FlxTransitionableState.skipNextTransOut = true;
+			FlxG.resetState();
+		}
+		else
+		{
+			MusicBeatState.resetState();
 		}
 	}
 
